@@ -1,4 +1,4 @@
-import Shape from "./shape";
+import Shape from "./shape.js";
 
 class Highlight extends Shape {
   constructor(x, y, width, height, options) {

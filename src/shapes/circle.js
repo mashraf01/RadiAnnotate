@@ -1,4 +1,4 @@
-import Shape from "./shape";
+import Shape from "./shape.js";
 
 class Circle extends Shape {
   constructor(x, y, radius, options) {

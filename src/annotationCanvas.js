@@ -1,8 +1,8 @@
-import Circle from "./shapes/circle";
-import Square from "./shapes/square";
-import Arrow from "./shapes/arrow";
-import Text from "./shapes/text";
-import Highlight from "./shapes/highlight";
+import Circle from "./shapes/circle.js";
+import Square from "./shapes/square.js";
+import Arrow from "./shapes/arrow.js";
+import Text from "./shapes/text.js";
+import Highlight from "./shapes/highlight.js";
 
 class AnnotationCanvas {
   constructor(canvas, options) {
@@ -20,43 +20,43 @@ class AnnotationCanvas {
 
   initListeners() {
     this.canvas.addEventListener('mousedown', (event) => {
-    const rect = this.canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-
-    const selectedAnnotation = this.getSelectedAnnotation(x, y);
-
-    if (selectedAnnotation) {
-      this.currentAnnotation = selectedAnnotation;
+      const rect = this.canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+  
+      const selectedAnnotation = this.getSelectedAnnotation(x, y);
+  
+      if (selectedAnnotation) {
+        this.currentAnnotation = selectedAnnotation;
+        this.isDrawing = false;
+      } else {
+        this.currentAnnotation = this.createAnnotation(x, y);
+        this.isDrawing = true;
+      }
+    }); // <-- This closing brace was missing
+  
+    this.canvas.addEventListener('mousemove', (event) => {
+      if (!this.currentAnnotation) return;
+  
+      const rect = this.canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+  
+      if (this.isDrawing) {
+        this.updateAnnotation(x, y);
+      } else {
+        this.currentAnnotation.move(x - this.currentAnnotation.x, y - this.currentAnnotation.y);
+      }
+  
+      this.draw();
+    });
+  
+    this.canvas.addEventListener('mouseup', () => {
+      this.currentAnnotation = null;
       this.isDrawing = false;
-    } else {
-      this.currentAnnotation = this.createAnnotation(x, y);
-      this.isDrawing = true;
-    }
-  });
-
-  this.canvas.addEventListener('mousemove', (event) => {
-    if (!this.currentAnnotation) return;
-
-    const rect = this.canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-
-    if (this.isDrawing) {
-      this.updateAnnotation(x, y);
-    } else {
-      this.currentAnnotation.move(x - this.currentAnnotation.x, y - this.currentAnnotation.y);
-    }
-
-    this.draw();
-  });
-
-  this.canvas.addEventListener('mouseup', () => {
-    this.currentAnnotation = null;
-    this.isDrawing = false;
-  });
-}
-
+    });
+  }
+  
 createAnnotation(x, y) {
   let annotation;
   const options = {
@@ -145,4 +145,7 @@ draw() {
 
 save() {
   return this.canvas.toDataURL('image/png');
-}
+}}
+
+// Add this line at the end of your annotationCanvas.js file
+export default AnnotationCanvas;

@@ -1,15 +1,38 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>RadiAnnotate</title>
+    <title>RadiAnnotate Test</title>
     <meta charset="UTF-8" />
   </head>
 
   <body>
     <div id="app">
-      <img id="sampleImage" src="img/sample.jpg" crossorigin="anonymous" />
+      <canvas id="annotationCanvas" width="640" height="480"></canvas>
     </div>
 
-    <script src="src/index.js"></script>
+    <script type="module">
+      // Import the AnnotationCanvas class
+      import AnnotationCanvas from './src/annotationCanvas.js';
+
+      // Find the canvas element
+      const canvas = document.getElementById('annotationCanvas');
+
+      // Initialize the AnnotationCanvas
+      const annotationCanvas = new AnnotationCanvas(canvas);
+
+      // Load the image
+      const image = new Image();
+      image.src = 'img/sample.png';
+      image.crossOrigin = 'anonymous';
+      //annotationCanvas.ctx.fillStyle = 'red';
+      //annotationCanvas.ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // When the image is loaded, draw it on the canvas
+      image.addEventListener('load', () => {
+        canvas.width = image.width;
+        canvas.height = image.height;
+        annotationCanvas.ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+      });
+    </script>
   </body>
 </html>

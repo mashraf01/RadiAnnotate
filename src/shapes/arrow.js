@@ -1,4 +1,4 @@
-import Shape from "./shape";
+import Shape from "./shape.js";
 
 class Arrow extends Shape {
   constructor(x1, y1, x2, y2, options) {
