@@ -1,2 +1,0 @@
-# RadiAnnotate
-Created with CodeSandbox
